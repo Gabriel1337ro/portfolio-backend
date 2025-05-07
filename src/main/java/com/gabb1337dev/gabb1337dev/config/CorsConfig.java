@@ -14,16 +14,21 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Permitir solicitudes desde cualquier origen en desarrollo
+        // Permitir todas las origenes
         config.addAllowedOrigin("*");
-        // En producción, especificar el dominio de Vercel
-        // config.addAllowedOrigin("https://tu-app.vercel.app");
         
-        config.addAllowedHeader("*");
+        // Permitir todos los métodos HTTP
         config.addAllowedMethod("*");
+        
+        // Permitir todos los headers
+        config.addAllowedHeader("*");
+        
+        // Permitir credenciales
         config.setAllowCredentials(true);
         
+        // Aplicar esta configuración a todas las rutas
         source.registerCorsConfiguration("/**", config);
+        
         return new CorsFilter(source);
     }
 } 
