@@ -1,0 +1,1 @@
+web: java -jar target/gabb1337dev-0.0.1-SNAPSHOT.jar 
