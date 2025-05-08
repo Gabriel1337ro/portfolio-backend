@@ -1,28 +1,93 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importar estilos de Angular Material */
 @use '@angular/material' as mat;
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* Variables globales */
-:root {
-  --primary-color: #1a237e; /* Azul marino */
-  --secondary-color: #283593;
-  --accent-color: #3949ab;
-  --text-color: #333333;
-  --light-text: #ffffff;
-  --background-light: #f5f5f5;
-  --background-dark: #121212;
-  --warn-color: #f44336;
-  --background-color: #f5f5f5;
-  --card-background: #ffffff;
-  --spacing-unit: 8px;
-}
-
-/* Estilos globales */
+/* Global styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #0a192f;
+  color: #ccd6f6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Material Overrides */
+.mat-mdc-card {
+  background-color: #1d3461 !important;
+  color: #ccd6f6 !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field-label {
+  color: #8892b0 !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: #112240 !important;
+}
+
+.mat-mdc-form-field-flex {
+  background-color: #112240 !important;
+}
+
+.mat-mdc-input-element {
+  color: #ccd6f6 !important;
+}
+
+.mat-mdc-raised-button {
+  background-color: #64ffda !important;
+  color: #0a192f !important;
+}
+
+.mat-mdc-raised-button:disabled {
+  background-color: rgba(100, 255, 218, 0.5) !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a192f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #64ffda;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4cd8b2;
+}
+
+/* Variables globales */
+:root {
+  --primary-color: #0a192f;
+  --secondary-color: #64ffda;
+  --text-primary: #ccd6f6;
+  --text-secondary: #8892b0;
+  --background: #0a192f;
+  --accent-color: #3949ab;
+  --light-text: #ffffff;
+  --background-light: #f5f5f5;
+  --background-dark: #121212;
+  --warn-color: #f44336;
+  --card-background: #ffffff;
+  --spacing-unit: 8px;
 }
 
 html {
@@ -90,8 +155,14 @@ body {
 
 /* Animaciones */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideIn {
@@ -101,7 +172,7 @@ body {
 
 /* Clases de utilidad */
 .fade-in {
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .slide-in {

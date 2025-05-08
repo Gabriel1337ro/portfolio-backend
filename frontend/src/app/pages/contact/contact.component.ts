@@ -21,190 +21,143 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   ],
   template: `
     <section class="contact">
-      <div class="container">
-        <h1 class="section-title">Contacto</h1>
-        <div class="contact-content">
-          <div class="contact-info">
-            <h2>¡Hablemos!</h2>
-            <p>¿Tienes un proyecto en mente? Me encantaría escuchar tus ideas y ayudarte a hacerlas realidad.</p>
-            
-            <div class="contact-details">
-              <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <div>
-                  <h3>Email</h3>
-                  <p>gabriel1337ro@gmail.com</p>
-                </div>
-              </div>
-              
-              <div class="contact-item">
-                <i class="fas fa-phone"></i>
-                <div>
-                  <h3>Teléfono</h3>
-                  <p>+1 234 567 890</p>
-                </div>
-              </div>
-              
-              <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <h3>Ubicación</h3>
-                  <p>Ciudad, País</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="social-links">
-              <a href="https://github.com/gabriel1337ro" target="_blank" class="social-link">
-                <i class="fab fa-github"></i>
-              </a>
-              <a href="https://linkedin.com/in/gabriel1337ro" target="_blank" class="social-link">
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a href="https://twitter.com/gabriel1337ro" target="_blank" class="social-link">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </div>
+      <h1>Get in Touch</h1>
+      <div class="contact-container">
+        <div class="contact-info">
+          <h2>Contact Information</h2>
+          <p>Feel free to reach out to me for any questions or opportunities.</p>
+          <div class="info-item">
+            <mat-icon>email</mat-icon>
+            <span>gabriel&#64;example.com</span>
           </div>
-
-          <div class="contact-form">
-            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-              <mat-form-field appearance="outline">
-                <mat-label>Nombre</mat-label>
-                <input matInput formControlName="name" placeholder="Tu nombre">
-                <mat-error *ngIf="contactForm.get('name')?.hasError('required')">
-                  El nombre es requerido
-                </mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" placeholder="tu@email.com">
-                <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
-                  El email es requerido
-                </mat-error>
-                <mat-error *ngIf="contactForm.get('email')?.hasError('email')">
-                  Ingresa un email válido
-                </mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Asunto</mat-label>
-                <input matInput formControlName="subject" placeholder="Asunto del mensaje">
-                <mat-error *ngIf="contactForm.get('subject')?.hasError('required')">
-                  El asunto es requerido
-                </mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Mensaje</mat-label>
-                <textarea matInput formControlName="message" rows="5" placeholder="Tu mensaje"></textarea>
-                <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
-                  El mensaje es requerido
-                </mat-error>
-              </mat-form-field>
-
-              <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid">
-                Enviar Mensaje
-              </button>
-            </form>
+          <div class="info-item">
+            <mat-icon>location_on</mat-icon>
+            <span>Ciudad, País</span>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com/gabb1337" target="_blank" rel="noopener noreferrer">
+              <mat-icon>code</mat-icon>
+            </a>
+            <a href="https://linkedin.com/in/gabb1337" target="_blank" rel="noopener noreferrer">
+              <mat-icon>business</mat-icon>
+            </a>
+            <a href="https://twitter.com/gabb1337" target="_blank" rel="noopener noreferrer">
+              <mat-icon>chat</mat-icon>
+            </a>
           </div>
         </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Your name">
+            <mat-error *ngIf="contactForm.get('name')?.hasError('required')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" placeholder="Your email">
+            <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="contactForm.get('email')?.hasError('email')">
+              Please enter a valid email
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea matInput formControlName="message" rows="5" placeholder="Your message"></textarea>
+            <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
+              Message is required
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="!contactForm.valid">
+            Send Message
+          </button>
+        </form>
       </div>
     </section>
   `,
   styles: [`
     .contact {
-      padding: 80px 0;
-      background-color: #0a192f;
+      padding: 2rem 0;
     }
 
-    .contact-content {
+    h1 {
+      text-align: center;
+      color: #ccd6f6;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+    }
+
+    .contact-container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      margin-top: 50px;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
     .contact-info {
-      h2 {
-        color: #64ffda;
-        font-size: 2rem;
-        margin-bottom: 20px;
-      }
+      background-color: #1d3461;
+      padding: 2rem;
+      border-radius: 8px;
+      color: #ccd6f6;
+    }
 
-      p {
-        color: #8892b0;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 40px;
-      }
+    .contact-info h2 {
+      color: #64ffda;
+      margin-bottom: 1rem;
+    }
 
-      .contact-details {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        margin-bottom: 40px;
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
 
-        .contact-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 20px;
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
 
-          i {
-            color: #64ffda;
-            font-size: 1.5rem;
-          }
+    .social-links a {
+      color: #8892b0;
+      transition: color 0.3s ease;
+    }
 
-          h3 {
-            color: #ccd6f6;
-            margin-bottom: 5px;
-          }
-
-          p {
-            color: #8892b0;
-            margin: 0;
-          }
-        }
-      }
-
-      .social-links {
-        display: flex;
-        gap: 20px;
-
-        .social-link {
-          color: #ccd6f6;
-          font-size: 1.5rem;
-          transition: color 0.3s ease;
-
-          &:hover {
-            color: #64ffda;
-          }
-        }
-      }
+    .social-links a:hover {
+      color: #64ffda;
     }
 
     .contact-form {
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
 
-        mat-form-field {
-          width: 100%;
-        }
+    mat-form-field {
+      width: 100%;
+    }
 
-        button {
-          align-self: flex-start;
-          padding: 10px 30px;
-          font-size: 1rem;
-        }
-      }
+    button {
+      align-self: flex-start;
     }
 
     @media (max-width: 768px) {
-      .contact-content {
+      .contact-container {
         grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
       }
     }
   `]
@@ -212,27 +165,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ContactComponent {
   contactForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {
+  constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
       message: ['', Validators.required]
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.contactForm.valid) {
-      // Aquí implementarías la lógica para enviar el formulario
       console.log(this.contactForm.value);
-      this.snackBar.open('Mensaje enviado con éxito', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
+      // Implementar lógica de envío del formulario
       this.contactForm.reset();
     }
   }

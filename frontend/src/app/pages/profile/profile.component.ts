@@ -6,7 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfileService, Profile } from '../../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
+import { Profile } from '../../models/profile.model';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 
@@ -26,7 +27,7 @@ import { Observable } from 'rxjs';
     <div class="profile-container">
       <mat-card class="profile-card">
         <div class="profile-header">
-          <img [src]="profile?.imageUrl || 'assets/default-avatar.png'" alt="Profile Image" class="profile-image">
+          <img [src]="profile?.heroImage || 'assets/default-avatar.png'" alt="Profile Image" class="profile-image">
           <div class="profile-info">
             <h1>{{ profile?.name }}</h1>
             <h2>{{ profile?.title }}</h2>
@@ -229,18 +230,19 @@ import { Observable } from 'rxjs';
 export class ProfileComponent implements OnInit {
   profile: Profile | null = null;
   editedProfile: Profile = {
-    id: 0,
     name: '',
     title: '',
     description: '',
     email: '',
     phone: '',
     location: '',
-    imageUrl: '',
+    heroImage: '',
+    aboutImage: '',
     socialLinks: {
       github: '',
       linkedin: '',
-      twitter: ''
+      twitter: '',
+      instagram: ''
     }
   };
   selectedFile: File | null = null;
@@ -276,7 +278,7 @@ export class ProfileComponent implements OnInit {
       this.profileService.uploadImage(this.selectedFile).subscribe(
         response => {
           if (this.editedProfile) {
-            this.editedProfile.imageUrl = response.imageUrl;
+            this.editedProfile.heroImage = response.imageUrl;
           }
           this.selectedFile = null;
         },

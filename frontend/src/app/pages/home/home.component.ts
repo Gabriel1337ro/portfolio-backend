@@ -1,143 +1,149 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MockProfileService } from '@services/mock-profile.service';
-import { Profile } from '@models/profile.model';
-import { HeaderComponent } from '@components/header/header.component';
-import { FooterComponent } from '@components/footer/footer.component';
+import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project.model';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent]
+  template: `
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Hi, I'm Gabb1337</h1>
+        <h2>Full Stack Developer</h2>
+        <p>I build modern web applications with cutting-edge technologies.</p>
+        <button mat-raised-button color="primary" routerLink="/projects">View My Work</button>
+      </div>
+    </section>
+
+    <section class="featured-projects">
+      <h2>Featured Projects</h2>
+      <div class="projects-grid">
+        <mat-card *ngFor="let project of featuredProjects" class="project-card">
+          <img mat-card-image [src]="project.imageUrl" [alt]="project.title">
+          <mat-card-content>
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.description }}</p>
+            <div class="technologies">
+              <span *ngFor="let tech of project.technologies" class="tech-tag">
+                {{ tech }}
+              </span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [href]="project.githubUrl" target="_blank">GitHub</a>
+            <a mat-button *ngIf="project.liveUrl" [href]="project.liveUrl" target="_blank">Live Demo</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </section>
+  `,
+  styles: [`
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #0a192f;
+      color: #ccd6f6;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #64ffda;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #8892b0;
+    }
+
+    .featured-projects {
+      padding: 4rem 0;
+      background-color: #112240;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #ccd6f6;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    .project-card {
+      background-color: #1d3461;
+      color: #ccd6f6;
+    }
+
+    .project-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tech-tag {
+      background-color: #64ffda;
+      color: #0a192f;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `]
 })
 export class HomeComponent implements OnInit {
-  profile: Profile | null = null;
-  services = [
-    {
-      icon: 'code',
-      title: 'Desarrollo Web',
-      description: 'Creamos sitios web modernos y responsivos utilizando las últimas tecnologías.'
-    },
-    {
-      icon: 'phone_android',
-      title: 'Desarrollo Móvil',
-      description: 'Aplicaciones móviles nativas y multiplataforma para iOS y Android.'
-    },
-    {
-      icon: 'cloud',
-      title: 'Cloud Solutions',
-      description: 'Soluciones en la nube escalables y seguras para tu negocio.'
-    }
-  ];
+  featuredProjects: Project[] = [];
 
-  portfolioItems = [
-    {
-      image: 'assets/images/portfolio-1.jpg',
-      title: 'Proyecto 1',
-      category: 'Desarrollo Web'
-    },
-    {
-      image: 'assets/images/portfolio-2.jpg',
-      title: 'Proyecto 2',
-      category: 'Aplicación Móvil'
-    },
-    {
-      image: 'assets/images/portfolio-3.jpg',
-      title: 'Proyecto 3',
-      category: 'Cloud Solution'
-    }
-  ];
+  constructor(private projectService: ProjectService) {}
 
-  contactInfo = {
-    email: 'gabriel@example.com',
-    phone: '+123 456 7890',
-    location: 'Ciudad, País'
-  };
-
-  isMenuOpen = false;
-  activeTab = 'main';
-  scrollPosition = 0;
-
-  constructor(private profileService: MockProfileService) {}
-
-  ngOnInit() {
-    this.loadProfile();
-    this.initializeScrollAnimations();
+  ngOnInit(): void {
+    this.loadFeaturedProjects();
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    this.scrollPosition = window.scrollY;
-    this.updateActiveSection();
-  }
-
-  loadProfile() {
-    this.profileService.getProfile().subscribe(
-      (profile: Profile) => {
-        this.profile = profile;
+  private loadFeaturedProjects(): void {
+    this.projectService.getAllProjects().subscribe(
+      projects => {
+        this.featuredProjects = projects.filter(project => project.featured);
       },
-      (error: Error) => {
-        console.error('Error loading profile:', error);
+      error => {
+        console.error('Error loading featured projects:', error);
       }
     );
-  }
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  scrollToSection(sectionId: string) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      this.isMenuOpen = false;
-    }
-  }
-
-  setActiveTab(tab: string) {
-    this.activeTab = tab;
-  }
-
-  private initializeScrollAnimations() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-          }
-        });
-      },
-      {
-        threshold: 0.1
-      }
-    );
-
-    document.querySelectorAll('.animate-on-scroll').forEach((element) => {
-      observer.observe(element);
-    });
-  }
-
-  private updateActiveSection() {
-    const sections = ['home', 'about', 'services', 'portfolio', 'contact'];
-    const currentSection = sections.find((section) => {
-      const element = document.getElementById(section);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom >= 100;
-      }
-      return false;
-    });
-
-    if (currentSection) {
-      this.activeTab = currentSection;
-    }
-  }
-
-  onSubmitContactForm(event: Event): void {
-    event.preventDefault();
-    // Implementar lógica de envío del formulario
-    console.log('Form submitted');
   }
 } 

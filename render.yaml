@@ -1,14 +1,16 @@
 services:
   - type: web
     name: portfolio-backend
-    env: java
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/gabb1337dev-0.0.1-SNAPSHOT.jar
+    env: node
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
     envVars:
-      - key: JAVA_VERSION
-        value: 17.0.0
-      - key: SPRING_PROFILES_ACTIVE
-        value: prod
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
 
 databases:
   - name: portfolio-db

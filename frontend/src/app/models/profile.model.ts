@@ -1,10 +1,11 @@
 export interface Profile {
+  _id?: string;
   name: string;
   title: string;
   description: string;
   email: string;
-  phone: string;
   location: string;
+  phone: string;
   heroImage: string;
   aboutImage: string;
   socialLinks: {
@@ -13,4 +14,6 @@ export interface Profile {
     twitter: string;
     instagram: string;
   };
+  createdAt?: Date;
+  updatedAt?: Date;
 } 

@@ -1,17 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
-interface Project {
-  title: string;
-  description: string;
-  imageUrl: string;
-  technologies: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-}
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project.model';
 
 @Component({
   selector: 'app-projects',
@@ -19,130 +12,114 @@ interface Project {
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   template: `
     <section class="projects">
-      <div class="container">
-        <h1 class="section-title">My Projects</h1>
-        <div class="projects-grid">
-          <mat-card class="project-card" *ngFor="let project of projects">
-            <img mat-card-image [src]="project.imageUrl" [alt]="project.title">
-            <mat-card-content>
-              <h2>{{project.title}}</h2>
-              <p>{{project.description}}</p>
-              <div class="technologies">
-                <span class="tech-tag" *ngFor="let tech of project.technologies">{{tech}}</span>
-              </div>
-            </mat-card-content>
-            <mat-card-actions>
-              <a mat-button [href]="project.githubUrl" target="_blank" *ngIf="project.githubUrl">
-                <i class="fab fa-github"></i> Code
-              </a>
-              <a mat-button [href]="project.liveUrl" target="_blank" *ngIf="project.liveUrl">
-                <i class="fas fa-external-link-alt"></i> Live Demo
-              </a>
-            </mat-card-actions>
-          </mat-card>
-        </div>
+      <h1>My Projects</h1>
+      <div class="projects-grid">
+        <mat-card *ngFor="let project of projects" class="project-card">
+          <img mat-card-image [src]="project.imageUrl" [alt]="project.title">
+          <mat-card-content>
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.description }}</p>
+            <div class="technologies">
+              <span *ngFor="let tech of project.technologies" class="tech-tag">
+                {{ tech }}
+              </span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [href]="project.githubUrl" target="_blank">GitHub</a>
+            <a mat-button *ngIf="project.liveUrl" [href]="project.liveUrl" target="_blank">Live Demo</a>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </section>
   `,
   styles: [`
     .projects {
-      padding: 80px 0;
-      background-color: #0a192f;
+      padding: 2rem 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ccd6f6;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
     }
 
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
+      gap: 2rem;
+      padding: 0 2rem;
     }
 
     .project-card {
-      background-color: #112240;
+      background-color: #1d3461;
       color: #ccd6f6;
       transition: transform 0.3s ease;
+    }
 
-      &:hover {
-        transform: translateY(-10px);
-      }
+    .project-card:hover {
+      transform: translateY(-5px);
+    }
 
-      img {
-        height: 200px;
-        object-fit: cover;
-      }
+    .project-card img {
+      height: 200px;
+      object-fit: cover;
+    }
 
-      h2 {
-        color: #64ffda;
-        margin: 16px 0;
-      }
+    .project-card h2 {
+      margin: 1rem 0;
+      color: #64ffda;
+    }
 
-      p {
-        color: #8892b0;
-        margin-bottom: 16px;
-      }
+    .project-card p {
+      color: #8892b0;
+      margin-bottom: 1rem;
+    }
 
-      .technologies {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 16px;
+    .technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
 
-        .tech-tag {
-          background-color: rgba(100, 255, 218, 0.1);
-          color: #64ffda;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 0.9rem;
-        }
-      }
-
-      mat-card-actions {
-        padding: 16px;
-        display: flex;
-        gap: 16px;
-
-        a {
-          color: #64ffda;
-          
-          i {
-            margin-right: 8px;
-          }
-        }
-      }
+    .tech-tag {
+      background-color: #64ffda;
+      color: #0a192f;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
     }
 
     @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
       .projects-grid {
         grid-template-columns: 1fr;
       }
     }
   `]
 })
-export class ProjectsComponent {
-  projects: Project[] = [
-    {
-      title: 'E-commerce Platform',
-      description: 'A modern e-commerce solution built with Angular and Node.js, featuring real-time inventory management and secure payment processing.',
-      imageUrl: 'assets/images/projects/ecommerce.jpg',
-      technologies: ['Angular', 'Node.js', 'MongoDB', 'Stripe'],
-      githubUrl: 'https://github.com/gabriel1337ro/ecommerce',
-      liveUrl: 'https://ecommerce.gabb1337.dev'
-    },
-    {
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates and team collaboration features.',
-      imageUrl: 'assets/images/projects/taskapp.jpg',
-      technologies: ['React', 'Firebase', 'Material-UI', 'Redux'],
-      githubUrl: 'https://github.com/gabriel1337ro/taskapp',
-      liveUrl: 'https://tasks.gabb1337.dev'
-    },
-    {
-      title: 'Weather Dashboard',
-      description: 'A weather forecasting dashboard that provides real-time weather data and interactive maps.',
-      imageUrl: 'assets/images/projects/weather.jpg',
-      technologies: ['Vue.js', 'OpenWeather API', 'Chart.js', 'Mapbox'],
-      githubUrl: 'https://github.com/gabriel1337ro/weather',
-      liveUrl: 'https://weather.gabb1337.dev'
-    }
-  ];
+export class ProjectsComponent implements OnInit {
+  projects: Project[] = [];
+
+  constructor(private projectService: ProjectService) {}
+
+  ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  private loadProjects(): void {
+    this.projectService.getAllProjects().subscribe(
+      projects => {
+        this.projects = projects;
+      },
+      error => {
+        console.error('Error loading projects:', error);
+      }
+    );
+  }
 } 

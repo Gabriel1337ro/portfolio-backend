@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfileService, Profile } from '../../../services/profile.service';
+import { ProfileService } from '../../../services/profile.service';
+import { Profile } from '../../../models/profile.model';
 
 @Component({
   selector: 'app-profile-admin',

@@ -1,17 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Project } from '../models/project.model';
 import { environment } from '../../environments/environment';
-
-export interface Project {
-  id?: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  imageUrl: string;
-  githubUrl: string;
-  liveUrl: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -21,23 +12,23 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
-  getProjects(): Observable<Project[]> {
+  getAllProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl);
   }
 
-  getProject(id: number): Observable<Project> {
+  getProject(id: string): Observable<Project> {
     return this.http.get<Project>(`${this.apiUrl}/${id}`);
   }
 
-  createProject(project: Project): Observable<Project> {
+  createProject(project: Partial<Project>): Observable<Project> {
     return this.http.post<Project>(this.apiUrl, project);
   }
 
-  updateProject(id: number, project: Project): Observable<Project> {
-    return this.http.put<Project>(`${this.apiUrl}/${id}`, project);
+  updateProject(id: string, project: Partial<Project>): Observable<Project> {
+    return this.http.patch<Project>(`${this.apiUrl}/${id}`, project);
   }
 
-  deleteProject(id: number): Observable<void> {
+  deleteProject(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 } 
