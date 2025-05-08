@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,85 +13,122 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    MatCardModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   template: `
-    <div class="container">
-      <mat-card class="login-card">
+    <div class="login-container">
+      <div class="login-card">
         <h1>Iniciar Sesión</h1>
-        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline">
-            <mat-label>Usuario</mat-label>
-            <input matInput [(ngModel)]="username" name="username" required>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="tu@email.com">
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+              El email es requerido
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+              Ingresa un email válido
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Contraseña</mat-label>
-            <input matInput [(ngModel)]="password" name="password" type="password" required>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              La contraseña es requerida
+            </mat-error>
           </mat-form-field>
 
-          <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.form.valid">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
             Iniciar Sesión
           </button>
         </form>
-      </mat-card>
+      </div>
     </div>
   `,
   styles: [`
-    .container {
-      max-width: 400px;
-      margin: 100px auto;
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0a192f;
       padding: 20px;
     }
 
     .login-card {
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    mat-form-field {
+      background-color: #112240;
+      padding: 40px;
+      border-radius: 10px;
       width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+      h1 {
+        color: #64ffda;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        mat-form-field {
+          width: 100%;
+        }
+
+        button[type="submit"] {
+          padding: 12px;
+          font-size: 1rem;
+          margin-top: 10px;
+        }
+      }
     }
 
-    button {
-      width: 100%;
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 20px;
+      }
     }
   `]
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
+  loginForm: FormGroup;
+  hidePassword = true;
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   onSubmit() {
-    this.authService.login(this.username, this.password)
-      .subscribe({
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
         next: () => {
           this.router.navigate(['/admin']);
         },
         error: (error) => {
-          console.error('Error during login:', error);
-          alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+          console.error('Error de inicio de sesión:', error);
+          // Aquí podrías mostrar un mensaje de error al usuario
         }
       });
+    }
   }
 } 

@@ -14,33 +14,28 @@ public class Profile {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "job_title")
-    private String jobTitle;
+    @Column(nullable = false)
+    private String title;
 
-    @Column(length = 2000)
-    private String about;
+    @Column(length = 1000)
+    private String description;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    @Column(name = "linkedin_url")
-    private String linkedinUrl;
+    @Column(nullable = false)
+    private String email;
+
+    private String phone;
+
+    private String location;
 
     @Column(name = "github_url")
     private String githubUrl;
 
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+
     @Column(name = "twitter_url")
     private String twitterUrl;
-
-    @Column
-    private String location;
-
-    @Column
-    private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "cv_url")
-    private String cvUrl;
 } 

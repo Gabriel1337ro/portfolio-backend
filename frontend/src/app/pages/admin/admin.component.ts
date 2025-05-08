@@ -1,261 +1,154 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClient } from '@angular/common/http';
-
-interface Project {
-  id?: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  imageUrl: string;
-  githubUrl: string;
-  demoUrl: string;
-}
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { AuthService } from '../../services/auth.service';
+import { MessageService } from '../../services/message.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
+    RouterModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
     MatButtonModule,
-    MatTableModule,
-    MatIconModule
+    MatToolbarModule,
+    MatBadgeModule
   ],
   template: `
-    <div class="container">
-      <mat-card class="admin-card">
-        <h1>Administración de Proyectos</h1>
-        
-        <!-- Formulario de proyecto -->
-        <form (ngSubmit)="onSubmit()" #projectForm="ngForm" class="project-form">
-          <mat-form-field appearance="outline">
-            <mat-label>Título</mat-label>
-            <input matInput [(ngModel)]="project.title" name="title" required>
-          </mat-form-field>
+    <div class="admin-container">
+      <mat-toolbar color="primary">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Panel de Administración</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </mat-toolbar>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Descripción</mat-label>
-            <textarea matInput [(ngModel)]="project.description" name="description" rows="3" required></textarea>
-          </mat-form-field>
+      <mat-sidenav-container>
+        <mat-sidenav #sidenav mode="side" opened>
+          <mat-nav-list>
+            <a mat-list-item routerLink="profile" routerLinkActive="active">
+              <mat-icon matListItemIcon>person</mat-icon>
+              <span matListItemTitle>Perfil</span>
+            </a>
+            <a mat-list-item routerLink="projects" routerLinkActive="active">
+              <mat-icon matListItemIcon>work</mat-icon>
+              <span matListItemTitle>Proyectos</span>
+            </a>
+            <a mat-list-item routerLink="skills" routerLinkActive="active">
+              <mat-icon matListItemIcon>code</mat-icon>
+              <span matListItemTitle>Habilidades</span>
+            </a>
+            <a mat-list-item routerLink="messages" routerLinkActive="active">
+              <mat-icon matListItemIcon>mail</mat-icon>
+              <span matListItemTitle>Mensajes</span>
+              <span matListItemMeta *ngIf="unreadCount$ | async as count" [matBadge]="count" matBadgeColor="warn"></span>
+            </a>
+          </mat-nav-list>
+        </mat-sidenav>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Tecnologías (separadas por comas)</mat-label>
-            <input matInput [(ngModel)]="technologiesInput" name="technologies" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>URL de la imagen</mat-label>
-            <input matInput [(ngModel)]="project.imageUrl" name="imageUrl" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>URL de GitHub</mat-label>
-            <input matInput [(ngModel)]="project.githubUrl" name="githubUrl" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>URL de Demo</mat-label>
-            <input matInput [(ngModel)]="project.demoUrl" name="demoUrl" required>
-          </mat-form-field>
-
-          <div class="button-group">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!projectForm.form.valid">
-              {{ isEditing ? 'Actualizar' : 'Agregar' }} Proyecto
-            </button>
-            <button mat-button type="button" (click)="resetForm()" *ngIf="isEditing">
-              Cancelar
-            </button>
+        <mat-sidenav-content>
+          <div class="content">
+            <router-outlet></router-outlet>
           </div>
-        </form>
-
-        <!-- Tabla de proyectos -->
-        <table mat-table [dataSource]="projects" class="projects-table">
-          <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef>Título</th>
-            <td mat-cell *matCellDef="let project">{{project.title}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="technologies">
-            <th mat-header-cell *matHeaderCellDef>Tecnologías</th>
-            <td mat-cell *matCellDef="let project">{{project.technologies.join(', ')}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let project">
-              <button mat-icon-button color="primary" (click)="editProject(project)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" (click)="deleteProject(project.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </mat-card>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
     </div>
   `,
   styles: [`
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .admin-card {
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    .project-form {
+    .admin-container {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      margin-bottom: 40px;
+      height: 100vh;
     }
 
-    mat-form-field {
-      width: 100%;
+    mat-toolbar {
+      background-color: #112240;
+      color: #ccd6f6;
     }
 
-    .button-group {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
+    .toolbar-spacer {
+      flex: 1 1 auto;
     }
 
-    .projects-table {
-      width: 100%;
-      margin-top: 20px;
+    mat-sidenav-container {
+      flex: 1;
+      background-color: #0a192f;
     }
 
-    .mat-column-actions {
-      width: 120px;
-      text-align: center;
+    mat-sidenav {
+      width: 250px;
+      background-color: #112240;
+      border-right: 1px solid #233554;
+    }
+
+    mat-nav-list {
+      padding-top: 20px;
+
+      a {
+        color: #8892b0;
+        margin: 8px 16px;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: rgba(100, 255, 218, 0.1);
+        }
+
+        &.active {
+          color: #64ffda;
+          background-color: rgba(100, 255, 218, 0.1);
+        }
+
+        mat-icon {
+          color: inherit;
+        }
+      }
+    }
+
+    .content {
+      padding: 20px;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      mat-sidenav {
+        width: 200px;
+      }
     }
   `]
 })
 export class AdminComponent implements OnInit {
-  projects: Project[] = [];
-  project: Project = {
-    title: '',
-    description: '',
-    technologies: [],
-    imageUrl: '',
-    githubUrl: '',
-    demoUrl: ''
-  };
-  technologiesInput: string = '';
-  isEditing: boolean = false;
-  displayedColumns: string[] = ['title', 'technologies', 'actions'];
+  unreadCount$: Observable<number>;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private authService: AuthService,
+    private messageService: MessageService
+  ) {
+    this.unreadCount$ = this.messageService.getUnreadCount();
+  }
 
   ngOnInit() {
-    this.loadProjects();
-  }
-
-  loadProjects() {
-    this.http.get<Project[]>('https://portfolio-backend-pq3p.onrender.com/api/projects')
-      .subscribe({
-        next: (data) => {
-          this.projects = data;
-        },
-        error: (error) => {
-          console.error('Error fetching projects:', error);
-        }
-      });
-  }
-
-  onSubmit() {
-    this.project.technologies = this.technologiesInput.split(',').map(tech => tech.trim());
-    
-    if (this.isEditing && this.project.id) {
-      this.updateProject();
-    } else {
-      this.createProject();
+    // Verificar autenticación al iniciar
+    if (!this.authService.isAuthenticated()) {
+      this.authService.logout();
     }
   }
 
-  editProject(project: Project) {
-    this.project = { ...project };
-    this.technologiesInput = project.technologies.join(', ');
-    this.isEditing = true;
-  }
-
-  deleteProject(id: number) {
-    if (id && confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
-      this.http.delete(`https://portfolio-backend-pq3p.onrender.com/api/projects/${id}`)
-        .subscribe({
-          next: () => {
-            alert('Proyecto eliminado correctamente');
-            this.loadProjects();
-          },
-          error: (error) => {
-            console.error('Error deleting project:', error);
-            alert('Error al eliminar el proyecto');
-          }
-        });
-    }
-  }
-
-  resetForm() {
-    this.project = {
-      title: '',
-      description: '',
-      technologies: [],
-      imageUrl: '',
-      githubUrl: '',
-      demoUrl: ''
-    };
-    this.technologiesInput = '';
-    this.isEditing = false;
-  }
-
-  updateProject() {
-    this.http.put(`https://portfolio-backend-pq3p.onrender.com/api/projects/${this.project.id}`, this.project)
-      .subscribe({
-        next: () => {
-          alert('Proyecto actualizado correctamente');
-          this.loadProjects();
-        },
-        error: (error) => {
-          console.error('Error updating project:', error);
-          alert('Error al actualizar el proyecto');
-        }
-      });
-  }
-
-  createProject() {
-    this.http.post('https://portfolio-backend-pq3p.onrender.com/api/projects', this.project)
-      .subscribe({
-        next: () => {
-          alert('Proyecto creado correctamente');
-          this.loadProjects();
-        },
-        error: (error) => {
-          console.error('Error creating project:', error);
-          alert('Error al crear el proyecto');
-        }
-      });
+  logout() {
+    this.authService.logout();
   }
 } 

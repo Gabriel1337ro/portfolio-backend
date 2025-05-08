@@ -1,1 +1,399 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importar estilos de Angular Material */
+@use '@angular/material' as mat;
+
+/* Variables globales */
+:root {
+  --primary-color: #1a237e; /* Azul marino */
+  --secondary-color: #283593;
+  --accent-color: #3949ab;
+  --text-color: #333333;
+  --light-text: #ffffff;
+  --background-light: #f5f5f5;
+  --background-dark: #121212;
+  --warn-color: #f44336;
+  --background-color: #f5f5f5;
+  --card-background: #ffffff;
+  --spacing-unit: 8px;
+}
+
+/* Estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #8892b0;
+  background-color: #0a192f;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn-primary {
+  background-color: #64ffda;
+  color: #0a192f;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+  }
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: #ccd6f6;
+  margin-bottom: 50px;
+  text-align: center;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #64ffda;
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Clases de utilidad */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Estilos de contenedores */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 3);
+}
+
+/* Estilos de tarjetas */
+.mat-card {
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Estilos de formularios */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+/* Estilos de botones */
+.mat-button, .mat-raised-button {
+  margin: calc(var(--spacing-unit) * 1) 0;
+}
+
+/* Estilos de la barra de navegación */
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de la sección de perfil */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--spacing-unit) * 4);
+  
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    border: 4px solid var(--primary-color);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  .profile-info {
+    text-align: center;
+    max-width: 600px;
+    
+    h1 {
+      margin-bottom: calc(var(--spacing-unit) * 2);
+      color: var(--primary-color);
+    }
+    
+    p {
+      margin-bottom: calc(var(--spacing-unit) * 2);
+      line-height: 1.6;
+    }
+  }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .container {
+    padding: calc(var(--spacing-unit) * 2);
+  }
+  
+  .profile-section {
+    padding: calc(var(--spacing-unit) * 2);
+    
+    .profile-image {
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+/* Estilos de sección */
+.section {
+  padding: 80px 0;
+  
+  &-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+  }
+}
+
+/* Estilos de botones */
+.btn {
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  
+  &-primary {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    
+    &:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* Estilos de tarjetas */
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+/* Estilos de navegación */
+.navbar {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  &-brand {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  
+  &-nav {
+    .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+/* Estilos de hero section */
+.hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--light-text);
+  padding: 120px 0;
+  
+  &-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  &-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Estilos de servicios */
+.services {
+  .service-card {
+    text-align: center;
+    padding: 2rem;
+    
+    .icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* Estilos de portfolio */
+.portfolio {
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    
+    img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(26, 35, 126, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Estilos de contacto */
+.contact {
+  background-color: var(--background-light);
+  
+  .contact-info {
+    i {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 12px;
+    
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: none;
+    }
+  }
+}
+
+/* Estilos de footer */
+.footer {
+  background-color: var(--background-dark);
+  color: var(--light-text);
+  padding: 60px 0 30px;
+  
+  .social-links {
+    a {
+      color: var(--light-text);
+      margin-right: 1rem;
+      font-size: 1.5rem;
+      
+      &:hover {
+        color: var(--accent-color);
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 0;
+    
+    &-title {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+}

@@ -1,59 +1,111 @@
-# Frontend
+# Gabb1337 Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.11.
+This is a modern portfolio website built with Angular, featuring a responsive design and smooth animations. The website showcases my work, skills, and experience in web development.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Modern and responsive design
+- Smooth scroll animations
+- Dynamic content loading
+- Contact form
+- Mobile-friendly navigation
+- Portfolio showcase
+- About section with tabs
+- Services section
+- Social media integration
 
+## Technologies Used
+
+- Angular 17
+- SCSS
+- Font Awesome
+- Intersection Observer API
+- TypeScript
+- RxJS
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+### Installation
+
+1. Clone the repository:
 ```bash
-ng serve
+git clone https://github.com/gabriel1337ro/portfolio.git
+cd portfolio/frontend
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2. Install dependencies:
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+3. Start the development server:
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+4. Open your browser and navigate to `http://localhost:4200`
 
-To build the project run:
+### Building for Production
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To build the project for production:
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+The build artifacts will be stored in the `dist/frontend` directory.
 
-For end-to-end (e2e) testing, run:
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   │   ├── header/
+│   │   │   └── footer/
+│   │   ├── models/
+│   │   ├── pages/
+│   │   │   └── home/
+│   │   └── services/
+│   ├── assets/
+│   │   └── images/
+│   └── environments/
+├── angular.json
+├── package.json
+├── tsconfig.json
+└── vercel.json
+```
+
+## Deployment
+
+The project is configured for deployment on Vercel. The deployment process is automated through GitHub integration.
+
+To deploy manually:
 
 ```bash
-ng e2e
+vercel deploy --prod
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Contributing
 
-## Additional Resources
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+Gabriel - gabriel1337ro@gmail.com
+
+Project Link: [https://github.com/gabriel1337ro/portfolio](https://github.com/gabriel1337ro/portfolio)

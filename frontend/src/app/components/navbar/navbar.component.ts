@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
       <span>Gabb1337</span>
       <span class="spacer"></span>
       <button mat-button routerLink="/">Inicio</button>
+      <button mat-button routerLink="/profile">Perfil</button>
       <button mat-button routerLink="/projects">Proyectos</button>
       <button mat-button routerLink="/contact">Contacto</button>
       <ng-container *ngIf="isAuthenticated$ | async">

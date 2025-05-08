@@ -1,0 +1,103 @@
+<div class="profile-admin">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Profile Settings</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="saveProfile()">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="profile.name" name="name" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="profile.title" name="title" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput [(ngModel)]="profile.description" name="description" rows="3" required></textarea>
+          </mat-form-field>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+          <h3>Contact Information</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="profile.email" name="email" type="email" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput [(ngModel)]="profile.phone" name="phone" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Location</mat-label>
+            <input matInput [(ngModel)]="profile.location" name="location" required>
+          </mat-form-field>
+        </div>
+
+        <!-- Social Links -->
+        <div class="form-section">
+          <h3>Social Links</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>GitHub</mat-label>
+            <input matInput [(ngModel)]="profile.socialLinks.github" name="github">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>LinkedIn</mat-label>
+            <input matInput [(ngModel)]="profile.socialLinks.linkedin" name="linkedin">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Twitter</mat-label>
+            <input matInput [(ngModel)]="profile.socialLinks.twitter" name="twitter">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Instagram</mat-label>
+            <input matInput [(ngModel)]="profile.socialLinks.instagram" name="instagram">
+          </mat-form-field>
+        </div>
+
+        <!-- Images -->
+        <div class="form-section">
+          <h3>Profile Images</h3>
+          
+          <!-- Hero Image -->
+          <div class="image-upload">
+            <h4>Hero Image</h4>
+            <div class="image-preview" [style.background-image]="'url(' + heroImagePreview + ')'">
+              <input type="file" accept="image/*" (change)="onHeroImageChange($event)" #heroImageInput>
+              <button mat-icon-button (click)="heroImageInput.click()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- About Image -->
+          <div class="image-upload">
+            <h4>About Image</h4>
+            <div class="image-preview" [style.background-image]="'url(' + aboutImagePreview + ')'">
+              <input type="file" accept="image/*" (change)="onAboutImageChange($event)" #aboutImageInput>
+              <button mat-icon-button (click)="aboutImageInput.click()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">Save Changes</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div> 

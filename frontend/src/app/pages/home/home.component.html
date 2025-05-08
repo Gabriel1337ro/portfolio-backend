@@ -1,0 +1,188 @@
+<!-- Header -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">Gabb1337</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="btn-talk">Let's Talk</button>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="availability">
+          <i class="fas fa-circle"></i> Available for freelance
+        </div>
+        <h1 class="hero-title">Hi, I'm {{profile?.name}}<br>{{profile?.title}}</h1>
+        <p class="hero-description">{{profile?.description}}</p>
+        <div class="hero-cta">
+          <button class="btn-primary">View My Work</button>
+          <div class="scroll-down">
+            <span>Scroll Down</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img [src]="profile?.heroImage" alt="Hero Image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>About Me</h2>
+        <div class="about-tabs">
+          <button class="tab active">Main Info</button>
+          <button class="tab">Experience</button>
+          <button class="tab">Education</button>
+        </div>
+        <p>{{profile?.description}}</p>
+        <div class="personal-info">
+          <div class="info-item">
+            <i class="fas fa-user"></i>
+            <span>Name: {{profile?.name}}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <span>Email: {{profile?.email}}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Location: {{profile?.location}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-image">
+        <img [src]="profile?.aboutImage" alt="About Image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services" id="services">
+  <div class="container">
+    <h2 class="section-title">My Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-number">01</div>
+        <h3>Web Development</h3>
+        <p>Creating modern and responsive web applications using the latest technologies.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-number">02</div>
+        <h3>Mobile Development</h3>
+        <p>Building cross-platform mobile applications with React Native and Flutter.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-number">03</div>
+        <h3>Cloud Solutions</h3>
+        <p>Implementing scalable cloud solutions using AWS and Azure services.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <h2 class="section-title">Latest Projects</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="assets/images/portfolio-1.jpg" alt="Project 1">
+        <div class="portfolio-overlay">
+          <h3>E-commerce Platform</h3>
+          <p>Modern e-commerce solution with Angular and Node.js</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/portfolio-2.jpg" alt="Project 2">
+        <div class="portfolio-overlay">
+          <h3>Mobile App</h3>
+          <p>Cross-platform mobile application with React Native</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/portfolio-3.jpg" alt="Project 3">
+        <div class="portfolio-overlay">
+          <h3>Cloud Dashboard</h3>
+          <p>Real-time monitoring dashboard with AWS services</p>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-cta">
+      <button class="btn-primary">View All Projects</button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-content">
+      <div class="contact-info">
+        <h2>Get In Touch</h2>
+        <p>Feel free to contact me for any project or collaboration.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>{{profile?.email}}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>{{profile?.phone}}</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{profile?.location}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form>
+          <div class="form-group">
+            <input type="text" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Your Email" required>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Your Message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">Gabb1337</div>
+      <div class="social-links">
+        <a [href]="profile?.socialLinks?.github" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
+        <a [href]="profile?.socialLinks?.linkedin" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a [href]="profile?.socialLinks?.twitter" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a [href]="profile?.socialLinks?.instagram" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Gabb1337. All rights reserved.</p>
+    </div>
+  </div>
+</footer> 

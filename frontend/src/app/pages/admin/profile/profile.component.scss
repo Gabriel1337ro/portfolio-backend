@@ -1,0 +1,84 @@
+.profile-admin {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+
+  mat-card {
+    margin-bottom: 2rem;
+  }
+
+  .form-section {
+    margin-bottom: 2rem;
+
+    h3 {
+      color: #1a237e;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    h4 {
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .image-upload {
+    margin-bottom: 2rem;
+
+    .image-preview {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      input[type="file"] {
+        display: none;
+      }
+
+      button {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        
+        &:hover {
+          background: white;
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+
+    button {
+      min-width: 150px;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .profile-admin {
+    padding: 1rem;
+
+    .image-upload {
+      .image-preview {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  }
+} 
