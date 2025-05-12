@@ -34,7 +34,7 @@ API REST desarrollada con Spring Boot que gestiona la información del portfolio
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/gabrielfigueroa/portfolio-backend.git
+git clone https://github.com/Gabriel1337ro/portfolio-backend.git
 ```
 
 2. Configurar la base de datos:
